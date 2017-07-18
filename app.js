@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
   // res.status(500)
-  res.render('index')
+  res.render('index', {title: 'Welcome Back Stranger'})
 })
 
 app.get('/signup', (req, res) => {
@@ -32,7 +32,7 @@ app.post('/signup', (req, res) => {
       password: req.body.password
     }
     queries.signUp(newUser)
-    res.redirect('/')
+    res.render('index', {title: 'Thanks for signing up username'})
   } else {
     // res.status(400)
     res.render('signup', {error: 'Passwords do not match'})
@@ -46,9 +46,14 @@ app.post('/login', (req, res) => {
   queries.confirmPassword(req.body.email, req.body.password)
   .then((confirmed) => {
     if(confirmed) {
-      res.render('index')
+      res.render('index' , {title: 'Welcome back username' })
     } else {
-      res.render('login', {error: 'Please provide an email and a password to login'})
+      console.log(req.body.email);
+      if(req.body.email == undefined || req.body.password == undefined) {
+        res.render('login', {error: 'Incorrect email or password'})
+      } else {
+          res.render('login', {error: 'Please provide an email and a password to login'})
+      }
     }
   })
 })
