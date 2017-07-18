@@ -26,4 +26,10 @@ function confirmPassword(email, password) {
   })
 }
 
+function authEmail(email) {
+  return db.any("SELECT * FROM users WHERE users.email = $1", [email])
+  .then((user) => true ? true : false)
+}
+
+
 module.exports = {signUp, passwordCompare, confirmPassword}
