@@ -15,17 +15,17 @@
 * Can use pg-promise to communicate to a postgresql server
 * Specs
 
-- [ ]build this app in a new empty GitHub repository
-- [ ]use node
-- [ ]ensure all your npm dependencies are listed in your package.json
-- [ ]use postgresql
-- [ ]design a database schema to store users
-- [ ]commit your schema in schema.sql
-- [ ]use the body-parser node package
-- [ ]use the cookie-session node package
-- [ ]use the pg-promise node package
-- [ ]implement the following user stories:
-- [ ]and you visit / (the home page) you see:
+- [ ] build this app in a new empty GitHub repository
+- [ ] use node
+- [ ] ensure all your npm dependencies are listed in your package.json
+- [ ] use postgresql
+- [ ] design a database schema to store users
+- [ ] commit your schema in schema.sql
+- [ ] use the body-parser node package
+- [ ] use the cookie-session node package
+- [ ] use the pg-promise node package
+- [ ] implement the following user stories:
+- [ ] and you visit / (the home page) you see:
 - [ ] "Hello Stranger"
 - [ ] a link to /signup
 - [ ] a link to /login
