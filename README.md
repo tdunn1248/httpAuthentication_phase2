@@ -17,17 +17,17 @@
 
 ## Specs
 
-- [ ] build this app in a new empty GitHub repository
-- [ ] use node
-- [ ] ensure all your npm dependencies are listed in your `package.json`
-- [ ] use postgresql
-- [ ] design a database schema to store users
-- [ ] commit your schema in `schema.sql`
-- [ ] use the `express` node package
-- [ ] use the `body-parser` node package
-- [ ] use the `cookie-session` node package
-- [ ] use the `pg-promise` node package
-- [ ] implement the following user stories:
+- [X] build this app in a new empty GitHub repository
+- [X] use node
+- [X] ensure all your npm dependencies are listed in your `package.json`
+- [X] use postgresql
+- [X] design a database schema to store users
+- [X] commit your schema in `schema.sql`
+- [X] use the `express` node package
+- [X] use the `body-parser` node package
+- [X] use the `cookie-session` node package
+- [X] use the `pg-promise` node package
+- [X] implement the following user stories:
   - when you are not logged in
     - and you visit `/` (the home page) you see:
       - "Hello Stranger"
@@ -51,7 +51,7 @@
         - with a valid email, and matching passwords
           - a new user should be inserted into the database
           - your session cookie should be updated with the new user id
-          - you should be logged in and redirected to the homepage
+          - you should be logged in anX redirected to the homepage
     - and you visit `/login` you see:
       - a form with:
         - email
