@@ -11,13 +11,8 @@ function signUp(user) {
   })
 }
 
-function confirmLogin(email, password) {
-  return db.one("SELECT * FROM users WHERE email = $1 AND password = $2", [email, password])
-  .then(user => user)
-}
-
 function getHash(email) {
-    return db.one("SELECT password FROM users WHERE email = $1", [email])
+    return db.oneOrNone("SELECT password FROM users WHERE email = $1", [email])
     .then(hashPassword => hashPassword)
 }
 
@@ -25,4 +20,4 @@ function checkUserSession(req, res, next) {
   (!req.session.user) ? res.status(302).redirect('/login') : next()
 }
 
-module.exports = {signUp, confirmLogin, checkUserSession, getHash}
+module.exports = {signUp, checkUserSession, getHash}

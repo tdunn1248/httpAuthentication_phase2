@@ -61,24 +61,21 @@ app.get('/login', (request, response) => {
 
 app.post('/login', (request, response) => {
   if(!request.body.email || ! request.body.password) {
-    response.render('login', {error: 'Incorrect username or password'})
-    response.end
+    response.render('login', {error: 'Please enter an username and password'})
+    return
   }
-  var userEmail = request.body.email
-  var userPassword = request.body.password
+  const userEmail = request.body.email
+  const userPassword = request.body.password
+
   queries.getHash(userEmail)
-  .then(hashPassword => {
-    bcrypt.compare(userPassword, hashPassword.password, function(err, res) {
-      if(res) {
-        queries.confirmLogin(userEmail, hashPassword.password)
-        .then(user => {
-          userEmail = user.email
-          request.session.user = userEmail
-          response.render('index', {userEmail: request.session.user})
-        })
-      } else {
+  .then(hash => {
+    bcrypt.compare(userPassword, hash.password, function(err, res) {
+      if(err) {
         response.render('login', {error: 'Incorrect username or password'})
+        return
       }
+      request.session.user = hash.email
+      response.render('index', {userEmail: userEmail})
     })
   })
 })
