@@ -33,26 +33,26 @@ app.get('/signup', (request, response) => {
 })
 
 app.post('/signup', (request, res) => {
-  if(user.passwordCompare(request.body.password, request.body.confirmPassword)) {
-    if(request.body.email.includes('@')) {
-      const newUser = {
-        email: request.body.email,
-        password: request.body.password
-      }
-      bcrypt.hash(newUser.password, 10, function(err, hash) {
-        newUser.password = hash
-        request.session.user = newUser.email
-        queries.signUp(newUser)
-      })
-      res.render('index', {title: 'Thanks for signing up ' + newUser.email, userEmail: newUser.email})
-    } else if(request.body.email.length == 0 || request.body.password.length == 0) {
-        res.render('signup', {error: 'Please provide an email and a password to sign up'})
-    } else {
-      res.render('signup', {error: 'Please provide an email and a password to sign up'})
-    }
-  } else {
+  if(!user.passwordCompare(request.body.password, request.body.confirmPassword)) {
     res.render('signup', {error: 'Passwords do not match'})
+    return
   }
+  if(!user.absentCredentials(request.body.password, request.body.confirmPassword)) {
+    res.render('signup', {error: 'Please provide an email and password'})
+    return
+  }
+  const newUser = {
+    email: request.body.email,
+    password: request.body.password
+  }
+  bcrypt.hash(newUser.password, 10, function(err, hash) {
+    queries.signUp(newUser)
+    .then(() => {
+      newUser.password = hash
+      request.session.user = newUser.email
+      res.render('index', {title: 'Thanks for signing up ' + newUser.email, userEmail: newUser.email})
+    })
+  })
 })
 
 app.get('/login', (request, response) => {
@@ -66,7 +66,6 @@ app.post('/login', (request, response) => {
   }
   const userEmail = request.body.email
   const userPassword = request.body.password
-
   queries.getHash(userEmail)
   .then(hash => {
     bcrypt.compare(userPassword, hash.password, function(err, res) {
@@ -74,7 +73,7 @@ app.post('/login', (request, response) => {
         response.render('login', {error: 'Incorrect username or password'})
         return
       }
-      request.session.user = hash.email
+      request.session.user = userEmail
       response.render('index', {userEmail: userEmail})
     })
   })

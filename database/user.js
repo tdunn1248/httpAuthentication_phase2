@@ -10,7 +10,7 @@ function authEmail(email) {
 }
 
 function absentCredentials(email, password) {
-  return email == undefined && password == undefined ? true : false
+  return email && email.length !==0 && password && password.length !==0
 }
 
 module.exports = {passwordCompare, authEmail, absentCredentials}
