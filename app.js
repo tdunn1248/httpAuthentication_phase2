@@ -10,7 +10,6 @@ const bcrypt = require('bcrypt')
 
 const port = 3005
 
-
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'))
 
@@ -34,24 +33,6 @@ app.get('/signup', (request, response) => {
 })
 
 app.post('/signup', (request, res) => {
-  // console.log('header', request.header)
-  // console.log('app', request.app)
-  // console.log('cookie', request.cookie);
-  // console.log('hostname', request.hostname);
-  // console.log('path', request.path);
-  // console.log('url', request.originalUrl);
-  // console.log('ips', request.ips);
-  // console.log('secure', request.secure);
-  
-  console.log('header', res.header)
-  console.log('app', res.app)
-  console.log('cookie', res.cookie);
-  console.log('hostname', res.hostname);
-  console.log('path', res.path);
-  console.log('url', res.originalUrl);
-  console.log('ips', res.ips);
-  console.log('secure', res.secure)
-
   if(user.passwordCompare(request.body.password, request.body.confirmPassword)) {
     if(request.body.email.includes('@')) {
       const newUser = {
@@ -65,10 +46,8 @@ app.post('/signup', (request, res) => {
       })
       res.render('index', {title: 'Thanks for signing up ' + newUser.email, userEmail: newUser.email})
     } else if(request.body.email.length == 0 || request.body.password.length == 0) {
-        console.log('one empty string')
         res.render('signup', {error: 'Please provide an email and a password to sign up'})
     } else {
-      console.log('finish line');
       res.render('signup', {error: 'Please provide an email and a password to sign up'})
     }
   } else {
@@ -81,6 +60,10 @@ app.get('/login', (request, response) => {
 })
 
 app.post('/login', (request, response) => {
+  if(!request.body.email || ! request.body.password) {
+    response.render('login', {error: 'Incorrect username or password'})
+    response.end
+  }
   var userEmail = request.body.email
   var userPassword = request.body.password
   queries.getHash(userEmail)
@@ -94,8 +77,7 @@ app.post('/login', (request, response) => {
           response.render('index', {userEmail: request.session.user})
         })
       } else {
-        // wrong input handlers
-        response.render('login', {error: 'password was wrong, fool'})
+        response.render('login', {error: 'Incorrect username or password'})
       }
     })
   })

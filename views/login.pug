@@ -10,10 +10,10 @@ body
         form(method='POST' action='/login')
           div.formgroup
             label(for='email') Email
-            input.form-control(type='text' id='email' placeholder='email' name='email' required)
+            input.form-control(type='text' id='email' placeholder='email' name='email')
           div.form-group
             label(for='password') Password
-            input.form-control(type='password' id='password' placeholder='password' name='password' required)
+            input.form-control(type='password' id='password' placeholder='password' name='password')
             button.btn.btn-primary(type='submit') Login
           h6 #{error}
 
