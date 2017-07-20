@@ -1,7 +1,7 @@
 const db = require('./configuration.js')
 
 function signUp(user) {
-  return db.none('INSERT INTO users VALUES(default, $1, $2)', [user.email, user.password])
+  return db.none('INSERT INTO users(id, email, password) VALUES(default, $1, $2)', [user.email, user.password])
   .then(() => {
     console.log('User created')
   })
@@ -11,25 +11,18 @@ function signUp(user) {
   })
 }
 
-function passwordCompare(password, confirmPassword) {
-  return (password === confirmPassword) ? true : false
+function confirmLogin(email, password) {
+  return db.one("SELECT * FROM users WHERE email = $1 AND password = $2", [email, password])
+  .then(user => user)
 }
 
-function confirmPassword(email, password) {
-  return db.any("SELECT * FROM users WHERE users.email = $1 AND users.password = $2", [email, password])
-  .then((user) => {
-    if(user.length === 0 ) {
-      return false
-    } else {
-      return true
-    }
-  })
+function getHash(email) {
+    return db.one("SELECT password FROM users WHERE email = $1", [email])
+    .then(hashPassword => hashPassword)
 }
 
-function authEmail(email) {
-  return db.any("SELECT * FROM users WHERE users.email = $1", [email])
-  .then((user) => true ? true : false)
+function checkUserSession(req, res, next) {
+  (!req.session.user) ? res.status(302).redirect('/login') : next()
 }
 
-
-module.exports = {signUp, passwordCompare, confirmPassword}
+module.exports = {signUp, confirmLogin, checkUserSession, getHash}

@@ -1,7 +1,10 @@
-include /header.pug
+include head.pug
 
+include header.pug
 
-main
+.main.container
   h1 #{title}
+  if userEmail
+    h4 Welcome #{userEmail}
 
 include footer.pug

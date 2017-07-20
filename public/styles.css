@@ -60,6 +60,7 @@ li {
   align-items: center;
   border-radius: 14px;
   box-shadow: 4px 4px 12px #000;
+  min-width: 300px;
 }
 
 .panel {

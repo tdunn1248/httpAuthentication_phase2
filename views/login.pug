@@ -1,3 +1,5 @@
+include head.pug
+
 include header.pug
 
 body
@@ -8,10 +10,10 @@ body
         form(method='POST' action='/login')
           div.formgroup
             label(for='email') Email
-            input.form-control(type='text' id='email' placeholder='email' name='email')
+            input.form-control(type='text' id='email' placeholder='email' name='email' required)
           div.form-group
             label(for='password') Password
-            input.form-control(type='password' id='password' placeholder='password' name='password')
+            input.form-control(type='password' id='password' placeholder='password' name='password' required)
             button.btn.btn-primary(type='submit') Login
           h6 #{error}
 
